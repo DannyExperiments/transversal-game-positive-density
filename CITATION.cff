@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Cite this version of the research release."
+title: "A positive-density pairing defense in the transversal game"
+authors:
+  - name: "DannyExperiments"
+type: software
+version: "1.0.0"
+date-released: 2026-11-27
+repository-code: "https://github.com/DannyExperiments/transversal-game-positive-density"
+keywords:
+  - "transversal game"
+  - "positional games"
+  - "pairing strategy"
+  - "perfect matchings"
+  - "inclusion\u2013exclusion"
+  - "Bonferroni inequalities"
+doi: "10.5281/zenodo.24572927"
+url: "https://doi.org/10.5281/zenodo.24572927"
+preferred-citation:
+  type: software
+  title: "A positive-density pairing defense in the transversal game"
+  authors:
+    - name: "DannyExperiments"
+  version: "1.0.0"
+  date-released: 2026-11-27
+  doi: "10.5281/zenodo.24572927"
+  url: "https://doi.org/10.5281/zenodo.24572927"
+  repository-code: "https://github.com/DannyExperiments/transversal-game-positive-density"

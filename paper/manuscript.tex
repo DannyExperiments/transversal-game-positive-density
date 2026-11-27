@@ -1,0 +1,69 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[margin=.77in,top=.70in,bottom=.70in]{geometry}
+\usepackage{amssymb}
+\DeclareFontShape{OMX}{cmex}{m}{n}{<->cmex10}{}
+\DeclareMathSizes{8}{8}{8}{8}
+\DeclareMathSizes{9}{9}{8}{8}
+\DeclareMathSizes{10.95}{10.95}{8}{8}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={A positive-density pairing defense in the transversal game}}
+\newtheorem{theorem}{Theorem}
+\title{A positive-density pairing defense in the transversal game}
+\date{27 November 2026}
+\begin{document}
+\begin{abstract}
+A family of transversals of limiting density \(1-e^{-1/2}\) admits a second-player pairing defense in the strong transversal game. This disproves Ran{\dj}elovi\'c's conjecture that the threshold for a forced first-player win has vanishing density. We compute the exact finite size and show asymptotic optimality within fixed disjoint-pair certificates.
+\end{abstract}
+\maketitle
+
+\section{The game and result}
+Players \(X\) and \(O\) alternate claiming empty cells of an \(n\times n\) grid, with \(X\) first. A transversal is the support of a permutation matrix. Given a family \(\mathcal F\) of transversals, a player wins by owning all cells of some member of \(\mathcal F\), and the winning family is the same for both players. Ran{\dj}elovi\'c~\cite[\S3]{R} defines \(g(n)\) as the smallest size such that \(X\) can force a win for every family of at least that size. Conjecture~7 of the published paper asserts \(g(n)=o(n!)\).
+
+\begin{theorem}
+For each \(n\ge2\), put \(m=\lfloor n/2\rfloor\). There is a family \(\mathcal F_n\) for which \(X\) cannot force a win, of size
+\[
+ |\mathcal F_n|=\sum_{k=1}^m(-1)^{k+1}\binom{m}{k}^2 k!\,2^k(n-2k)!.
+\]
+Its density tends to \(1-e^{-1/2}\). In particular
+\(\liminf_{n\to\infty}g(n)/n!\ge1-e^{-1/2}\).
+This limiting density is the largest possible among certificates in which each allowed transversal contains a pair from a fixed collection of disjoint cell pairs.
+\end{theorem}
+
+\section{Construction and defense}
+Pair the first \(2m\) rows into consecutive pairs and likewise the first \(2m\) columns. In every resulting \(2\times2\) block prescribe the two diagonal pairs. All prescribed pairs are disjoint. Let \(\mathcal F_n\) consist of the transversals containing a complete prescribed pair.
+
+Use the standard pairing response~\cite{HJ}: whenever \(X\) claims a paired cell whose mate is free, \(O\) claims its mate. On other turns \(O\) makes any available move. On the first occasion that \(X\) claims a member of a pair, its mate is either already \(O\)'s or is taken immediately by \(O\), unless play has ended. Also \(X\) cannot end the game on that move with a winning transversal: to contain any complete pair it would have had to claim the first member on a strictly earlier move. Thus \(X\) never wins under this response, and \(g(n)>|\mathcal F_n|\) in the range where the threshold is defined for the unrestricted game.
+
+\section{Exact count and limit}
+Sample a uniform permutation of the columns and let \(Z\) be the number of prescribed pairs its transversal contains. Write \(S_k=\mathbb E\binom Zk\) and let \((n)_j=n(n-1)\cdots(n-j+1)\) be the falling factorial. A compatible \(k\)-set of prescribed pairs uses \(k\) distinct row-pair blocks and \(k\) distinct column-pair blocks. Choose the two \(k\)-sets in \(\binom mk^2\) ways, match them in \(k!\) ways, and choose which diagonal in each matched block in \(2^k\) ways. This prescribes \(2k\) cells with distinct row and column coordinates, so each such \(k\)-set appears in a random permutation with probability \(1/(n)_{2k}\). Hence
+\[
+                     S_k=\frac{\binom mk^2 k!\,2^k}{(n)_{2k}}.
+\]
+Inclusion--exclusion yields the exact count after multiplying \(\Pr(Z\ge1)\) by \(n!\). For each fixed \(k\), \(S_k\to(1/2)^k/k!\) since \(m/n\to1/2\). Bonferroni inequalities bracket \(\Pr(Z\ge1)\) by fixed even- and odd-order alternating partial sums. Pass to the limit in \(n\) at each fixed order, then let the order grow. Both limiting alternating sums converge to \(1-e^{-1/2}\). The argument includes odd board sizes.
+
+\section{Largest limiting density for fixed disjoint pairs}
+Consider any sequence of fixed disjoint collections of cell pairs. Discard pairs whose two cells share a row or column; none can occur in a transversal. Let \(q_n\le n^2/2\) count the remaining pairs. A pair is incompatible with at most \(4n\) other pairs since an incompatible pair uses at least one of its two rows or two columns and each cell belongs to at most one pair. For any fixed \(k\ge2\), the number of ordered \(k\)-tuples of pairs with a repeat or incompatibility is \(O_k(n^{2k-1})\). Indeed choose two slots, the first pair in at most \(q_n\) ways and the conflicting or repeated partner in at most \(4n+1\) ways, and fill the other slots in at most \(q_n^{k-2}\) ways.
+
+Each compatible set has \(k!\) orders and determines \(2k\) distinct rows and columns of the permutation. Along any subsequence where \(q_n/n^2\to a\), the factorial moment \(S_k\) therefore tends to \(a^k/k!\). For \(k=1\) the same conclusion follows directly from \(S_1=q_n/(n)_2\). Bonferroni as above proves convergence of the covered fraction to \(1-e^{-a}\). Since every subsequence has a further subsequence on which \(q_n/n^2\) converges to some \(a\le1/2\), the upper limiting density is at most \(1-e^{-1/2}\). The block construction reaches that bound. Other defensive strategies may cover different densities.
+
+\section{Relation to prior results}
+Ran{\dj}elovi\'c~\cite[\S3, p.~13]{R} obtains \(g(n)>(n-2)!\) from a family requiring one fixed pair of cells and gives an upper bound in Theorem~6. The construction here uses quadratically many disjoint pairs that can occur in a transversal. The computed limit improves the lower bound to positive density. Guan's faster winning strategy~\cite{G} concerns the unrestricted family; his discussion explicitly leaves the restricted-family thresholds open. The full asymptotic value of \(g(n)/n!\) remains undetermined by these arguments.
+
+\section*{Companion deduction from the published Maker--Breaker strategy}
+Ran{\dj}elovi\'c's Conjecture~5 asks whether the smallest size \(f(n)\) of a winning family, for the first player, is eventually bounded by \(c^n\) for a constant \(c>1\). The Claim in the proof of~\cite[Theorem~4]{R} shows that Maker can form a transversal playing second on any square block of size at least five, and the theorem combines such blocks in the Maker--Breaker game. Adjoining one cell common to all winning sets transfers that strategy to the strong game.
+
+For \(n\ge6\), let \(n-1=5k+r\) with \(0\le r\le4\). On deleting row and column one, partition the remaining coordinates into \(k-1\) matched diagonal blocks of size five and one of size \(5+r\). Allow exactly the transversals containing \((1,1)\) and a transversal in each block. Player \(X\) opens at \((1,1)\), so \(O\) cannot win. In any unfinished block respond to \(O\)'s move according to the block's second-player Maker strategy. If \(O\) plays outside unfinished blocks or on a cell already logged as a virtual Breaker move, simulate an arbitrary legal Breaker move in an unfinished block and respond there. Every real \(O\) move in an unfinished block is recorded by the corresponding simulation, and every simulated Maker move is made on the actual board. Thus a legal simulated response stays physically available. The block strategies win before exhausting the simulations, so as long as an unfinished block remains a physical move is possible. Each round advances one unfinished block, and eventually \(X\) has a transversal in each.
+
+The number of allowed transversals is \((5!)^{k-1}(5+r)!\). Hence \(\limsup f(n)^{1/n}\le120^{1/5}<3\), yielding the eventual bound asked for, for example \(c=4\). This is a deduction from the published block strategy.
+
+\section*{Research disclosure}
+Under human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the primary literature and prepared the worked example, replay, visual and release files. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.
+
+\begin{thebibliography}{9}
+\raggedright
+\bibitem{R} \v{Z}. Ran{\dj}elovi\'c, The transversal game, Discrete Math. Theor. Comput. Sci. 28(3) (2026), no.~26. \href{https://dmtcs.episciences.org/en/articles/19063}{Journal record}.
+\bibitem{HJ} A. W. Hales and R. I. Jewett, Regularity and positional games, Trans. Amer. Math. Soc. 106 (1963), 222--229. \href{https://www.jstor.org/stable/1993764}{Journal record}.
+\bibitem{G} K. Guan, The transversal achievement game on a square grid, 2026. \href{https://arxiv.org/abs/2608.13501}{arXiv:2608.13501}.
+\end{thebibliography}
+\end{document}

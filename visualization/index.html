@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transversal pairing explorer</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101c30;color:#f5f8fd;font:16px/1.5 system-ui}main{max-width:760px;margin:auto;padding:18px}h1{margin:0;font-size:clamp(1.55rem,5vw,2.2rem)}p{color:#cfdef2;margin:7px 0 14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px}label,.control{display:grid;gap:6px;padding:10px;background:#1b2e4b;border-radius:8px}input,select{min-width:0;width:100%;min-height:38px;accent-color:#78dcd1}select{background:#101c30;color:#f5f8fd;border:1px solid #90a5c2;border-radius:5px;font:inherit}canvas{display:block;width:100%;height:270px;margin:12px 0;background:#1b2e4b;border-radius:10px}.rows{display:grid;grid-template-columns:1fr auto;gap:5px 16px;margin:12px 0;padding:12px;border-radius:8px;background:#1b2e4b}.rows dt,.rows dd{margin:0}.pass{color:#78dcd1}.fail{color:#ffac97}.verdict{font-size:1.14rem;font-weight:700}
+.check{display:flex;align-items:center}.check input{width:24px;min-height:24px;margin-right:9px}
+</style>
+<main>
+<h1>Transversal pairing explorer</h1>
+<p>Choose a permutation of columns across the four rows. The board connects pairs for which both cells belong to your transversal.</p>
+<div class="grid">
+<label>Columns by row<select id="columns"></select></label>
+<label>Rotate board<input id="angle" type="range" min="0" max="360" value="24"></label>
+</div>
+<canvas id="scene" aria-label="Rotating four-by-four board with selected columns and complete pair links">The pair count appears below.</canvas>
+<label class="check"><input id="reply" type="checkbox" checked>Show the pairing response</label>
+<dl class="rows" aria-live="polite">
+<dt>Complete pairs</dt><dd id="count"></dd>
+<dt>In the blocked family</dt><dd id="family"></dd>
+</dl>
+<p id="reply-text"></p>
+<p>Eight of 24 transversals belong to the family on this board. Its density approaches 1−exp(−1/2) on growing boards.</p>
+</main>
+<script>
+"use strict";
+const el=id=>document.getElementById(id);
+const canvas=el("scene"),ctx=canvas.getContext("2d");
+function permutations(xs){
+  if(xs.length===0)return [[]];
+  return xs.flatMap((x,i)=>permutations(xs.filter((_,k)=>k!==i)).map(rest=>[x,...rest]));
+}
+const choices=permutations([0,1,2,3]);
+const selector=el("columns");
+choices.forEach((p,i)=>{
+  const option=document.createElement("option");
+  option.value=String(i);option.textContent=p.map(c=>c+1).join(", ");selector.append(option);
+});
+selector.value=String(choices.findIndex(p=>p.join("")==="1032"));
+function pairs(p){
+  return [0,2].filter(r=>p[r+1]===(p[r]^1)).map(r=>[[r,p[r]],[r+1,p[r+1]]]);
+}
+const tile=(r,c)=>[.7*(c-1.5),.7*(r-1.5)];
+const cell=([r,c])=>"("+(r+1)+", "+(c+1)+")";
+function draw(){
+  const p=choices[Number(selector.value)],hits=pairs(p);
+  const reply=el("reply").checked&&hits.length?hits[0]:[];
+  el("count").textContent=hits.length;
+  el("family").textContent=hits.length?"Yes":"No";
+  el("reply-text").textContent=reply.length?"If X takes "+cell(reply[0])+", O takes "+cell(reply[1])+".":hits.length?"The highlighted links show the complete pairs.":"The selected transversal contains no complete prescribed pair.";
+  const width=canvas.clientWidth,height=canvas.clientHeight,pixel=window.devicePixelRatio||1;
+  canvas.width=width*pixel;canvas.height=height*pixel;ctx.scale(pixel,pixel);
+  const angle=Number(el("angle").value)*Math.PI/180,tilt=.76+.12*Math.cos(angle);
+  function project(x,y,z){
+    [x,z]=[x*Math.cos(angle)+z*Math.sin(angle),z*Math.cos(angle)-x*Math.sin(angle)];
+    [y,z]=[y*Math.cos(tilt)-z*Math.sin(tilt),y*Math.sin(tilt)+z*Math.cos(tilt)];
+    const f=Math.min(width*1.25,450)/(5.55-z);
+    return [width/2+f*x,height/2-f*y,z];
+  }
+  const tiles=[];
+  for(let r=0;r<4;r++)for(let c=0;c<4;c++){
+    const [x,z]=tile(r,c),pts=[[-.33,-.33],[-.33,.33],[.33,.33],[.33,-.33]].map(([dx,dz])=>project(x+dx,0,z+dz));
+    let fill=((r>>1)+(c>>1))%2===0?"#34516d":"#253e5c";
+    if(p[r]===c)fill="#42918b";
+    if(reply.length&&r===reply[0][0]&&c===reply[0][1])fill="#ffac97";
+    if(reply.length&&r===reply[1][0]&&c===reply[1][1])fill="#78dcd1";
+    tiles.push({pts,fill,depth:pts.reduce((s,v)=>s+v[2],0)/pts.length});
+  }
+  tiles.sort((a,b)=>a.depth-b.depth);
+  for(const {pts,fill} of tiles){
+    ctx.beginPath();pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();
+    ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle="#101c30";ctx.stroke();
+  }
+  for(const hit of hits){
+    const endpoints=hit.map(([r,c])=>{const [x,z]=tile(r,c);return project(x,.16,z);});
+    ctx.beginPath();ctx.moveTo(...endpoints[0].slice(0,2));ctx.lineTo(...endpoints[1].slice(0,2));
+    ctx.strokeStyle="#f5f8fd";ctx.lineWidth=2;ctx.stroke();
+  }
+  if(reply.length){
+    ctx.font="bold 20px system-ui";ctx.textAlign="center";ctx.textBaseline="middle";
+    reply.forEach(([r,c],i)=>{
+      const [x,z]=tile(r,c),point=project(x,.22,z),symbol=i?"O":"X";
+      ctx.lineWidth=3;ctx.strokeStyle="#f5f8fd";ctx.strokeText(symbol,...point.slice(0,2));
+      ctx.fillStyle="#101c30";ctx.fillText(symbol,...point.slice(0,2));
+    });
+  }
+}
+for(const id of ["columns","angle","reply"])el(id).addEventListener("input",draw);
+window.addEventListener("resize",draw);
+draw();
+</script></html>

@@ -1,0 +1,30 @@
+{
+  "title": "A positive-density pairing defense in the transversal game",
+  "upload_type": "software",
+  "version": "1.0.0",
+  "publication_date": "2026-11-27",
+  "creators": [
+    {
+      "name": "DannyExperiments"
+    }
+  ],
+  "description": "A disjoint pairing defense blocks a family of transversals of limiting density 1−exp(−1/2), refuting the conjectured vanishing winning threshold.\n\nPair opposite cells inside disjoint 2×2 blocks. Keep every transversal containing a whole pair. The second player answers in the mate of any newly played paired cell and prevents the first player from completing any allowed transversal. Inclusion–exclusion gives the exact finite size; fixed-order Bonferroni bounds give its limiting density. Counting incompatible pairs then shows this is the largest limiting density for certificates based on fixed disjoint pairs.\n\nThe construction answers Conjecture 7 of Ranđelović’s The transversal game and extends the published single-pair obstruction using the classical pairing tactic. It does not determine the full asymptotic threshold for arbitrary strategies. A separate companion deduction uses the source’s Maker–Breaker block strategy to give the exponential upper bound in Conjecture 5. Exact enumeration checks board sizes four through nine and every selection in the four-by-four explorer. External peer review is pending.\n\nUnder human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the primary literature and prepared the worked example, replay, visual and release files. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.",
+  "keywords": [
+    "transversal game",
+    "positional games",
+    "pairing strategy",
+    "perfect matchings",
+    "inclusion–exclusion",
+    "Bonferroni inequalities"
+  ],
+  "access_right": "open",
+  "license": "other-closed",
+  "notes": "All rights reserved. Publicly downloadable files are supplied without a repository-wide reuse license.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/DannyExperiments/transversal-game-positive-density/releases/tag/v1.0.0",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}
