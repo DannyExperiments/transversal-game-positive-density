@@ -1,5 +1,6 @@
 # A positive-density pairing defense in the transversal game
 
+[![Lean · pairing defense](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/lean.yml)
 [![Repository verification](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/verify.yml) [![Replay verification](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/replay.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/replay.yml) [![PDF build](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/pdf.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/transversal-game-positive-density/actions/workflows/pdf.yml) [![Version DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24572927.svg)](https://doi.org/10.5281/zenodo.24572927)
 
 A disjoint pairing defense blocks a family of transversals of limiting density 1−exp(−1/2), refuting the conjectured vanishing winning threshold. The construction is asymptotically sharp among fixed disjoint-pair certificates.
@@ -30,3 +31,7 @@ The separate [companion deduction](proof/companion-q1154.md) uses the published 
 ## Cite
 
 DannyExperiments. *A positive-density pairing defense in the transversal game*. Version 1.0.0, 27 November 2026. [Version DOI](https://doi.org/10.5281/zenodo.24572927).
+
+## Lean verification
+
+For every disjoint matching, including one with unpaired cells, a response at its unique free mate preserves the guarding invariant at every round. With disjoint player marks the next legal first-player move cannot complete any matched pair. The certificate handles the turn before the defender replies. The enumeration of transversals, asymptotic density and optimality within the fixed-pair class remain in the paper. [Lean source and replay](formalization/README.md)
